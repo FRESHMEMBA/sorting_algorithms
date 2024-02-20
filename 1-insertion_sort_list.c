@@ -42,38 +42,47 @@ void sorted_insert(listint_t **list, listint_t *new_node)
  */
 void insertion_sort_list(listint_t **list)
 {
-    listint_t *sorted = NULL;
-
+    listint_t *print_ptr;
     listint_t *current = *list;
 
     while (current != NULL)
     {
         listint_t *next = current->next;
 
-        if (sorted == NULL || current->n <= sorted->n)
+        listint_t *temp = *list;
+        while (temp != NULL && temp->n < current->n)
+            temp = temp->next;
+
+        if (temp == NULL)
         {
-            current->next = sorted;
+            current->next = NULL;
             current->prev = NULL;
-            if (sorted != NULL)
-                sorted->prev = current;
-            sorted = current;
+            *list = current;
+        }
+        else if (temp == *list)
+        {
+            current->next = temp;
+            current->prev = NULL;
+            temp->prev = current;
+            *list = current;
         }
         else
         {
-            listint_t *temp = sorted;
-            while (temp->next != NULL && temp->next->n < current->n)
-                temp = temp->next;
+            current->next = temp;
+            current->prev = temp->prev;
+            temp->prev->next = current;
+            temp->prev = current;
+        }
 
-            current->next = temp->next;
-            if (temp->next != NULL)
-                temp->next->prev = current;
-            temp->next = current;
-            current->prev = temp;
+        print_ptr = *list;
+        while (print_ptr != NULL)
+        {
+            printf("%d", print_ptr->n);
+            if (print_ptr->next != NULL)
+                printf(", ");
+            print_ptr = print_ptr->next;
         }
 
         current = next;
-        print_list(current);
     }
-
-    *list = sorted;
 }
