@@ -42,14 +42,14 @@ void sorted_insert(listint_t **list, listint_t *new_node)
  */
 void insertion_sort_list(listint_t **list)
 {
-    listint_t *print_ptr;
+    listint_t *print_ptr, *next, *temp;
     listint_t *current = *list;
 
     while (current != NULL)
     {
-        listint_t *next = current->next;
+        next = current->next;
+        temp = *list;
 
-        listint_t *temp = *list;
         while (temp != NULL && temp->n < current->n)
             temp = temp->next;
 
