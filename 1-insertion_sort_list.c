@@ -8,49 +8,43 @@
  */
 void insertion_sort_list(listint_t **list)
 {
-    listint_t *print_ptr, *next, *temp;
-    listint_t *current = *list;
+    listint_t *current_node, *insertion_node, *next_node;
 
-    while (current != NULL)
+    if (list == NULL || *list == NULL)
+        return;
+
+    current_node = (*list)->next;
+
+    while (current_node != NULL)
     {
-        next = current->next;
-        temp = *list;
+        insertion_node = current_node->prev;
 
-        while (temp != NULL && temp->n < current->n)
-            temp = temp->next;
-
-        if (temp == NULL)
+        while (insertion_node != NULL)
         {
-            current->next = NULL;
-            current->prev = NULL;
-            *list = current;
-        }
-        else if (temp == *list)
-        {
-            current->next = temp;
-            current->prev = NULL;
-            temp->prev = current;
-            *list = current;
-        }
-        else
-        {
-            current->next = temp;
-            current->prev = temp->prev;
-            temp->prev->next = current;
-            temp->prev = current;
-        }
+            if (current_node->n < insertion_node->n)
+            {
+                next_node = current_node->next;
+                current_node->next = insertion_node;
+                current_node->prev = insertion_node->prev;
+                insertion_node->prev = current_node;
 
-        print_ptr = *list;
-        while (print_ptr != NULL)
-        {
-            printf("%d", print_ptr->n);
-            if (print_ptr->next != NULL)
-                printf(", ");
-            print_ptr = print_ptr->next;
+                if (current_node->prev != NULL)
+                {
+                    current_node->prev->next = current_node;
+                }
+                if (next_node != NULL)
+                {
+                    next_node->prev = insertion_node;
+                }
+                insertion_node->next = next_node;
+                if (current_node->prev == NULL)
+                {
+                    *list = current_node;
+                }
+                print_list(*list);
+            }
+            insertion_node = insertion_node->prev;
         }
-
-        current = next;
-
-        print_list(sorted);
+        current_node = current_node->next;
     }
 }
