@@ -50,9 +50,7 @@ void insertion_sort_list(listint_t **list)
         }
 
         current = next;
-<<<<<<< HEAD
+
         print_list(sorted);
-=======
->>>>>>> ff9526f971657fec7053bbd926f1ba81191a287d
     }
 }
